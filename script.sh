@@ -7,9 +7,9 @@ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(l
 ## Install Packages
 apt update && apt install -y docker.io unzip nomad
 
-## Install Nomad beta
-curl -O nomad.zip https://releases.hashicorp.com/nomad/1.4.0-beta.1/nomad_1.4.0-beta.1_linux_amd64.zip
-unzip -od /usr/bin/ nomad.zip 
+## Install Nomad beta (1.4 is GA!)
+# curl -O nomad.zip https://releases.hashicorp.com/nomad/1.4.0-beta.1/nomad_1.4.0-beta.1_linux_amd64.zip
+# unzip -od /usr/bin/ nomad.zip 
 
 # Configure a smaller range of ports for dynamic workloads in line with Vagrantfile
 cat <<EOF > /etc/nomad.d/port_range.hcl
