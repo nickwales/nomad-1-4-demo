@@ -12,13 +12,26 @@ apt update && apt install -y docker.io unzip nomad
 # unzip -od /usr/bin/ nomad.zip 
 
 # Configure a smaller range of ports for dynamic workloads in line with Vagrantfile
-cat <<EOF > /etc/nomad.d/port_range.hcl
+cat <<EOF > /etc/nomad.d/extra_config.hcl
 client {
   min_dynamic_port = 20000
   max_dynamic_port = 20030
+}
+
+plugin "docker" {
+  config {
+    volumes {
+      enabled = true
+    }
+  }
 }
 EOF
 
 systemctl daemon-reload
 systemctl enable nomad --now
 systemctl enable docker --now
+
+# Pull required containers
+docker pull mysql:8.0.31 
+docker pull traefik:2.9.1
+docker pull wordpress:6.0.2
