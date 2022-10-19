@@ -27,13 +27,13 @@ job "traefik" {
       driver = "docker"
 
       config {
-        image = "traefik"
+        image = "traefik:2.9.1"
         args = ["--configFile=local/traefik.yaml"]
         ports = ["http", "api", "ping", "metrics"]
       }
 
       service {
-        provider = "nomad"
+        provider = "nomad"  ## Nomad service discovery!
         name = "traefik-admin"
         port = "api"
       }

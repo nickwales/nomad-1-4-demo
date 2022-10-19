@@ -7,13 +7,14 @@ job "wordpress-server" {
 
     network {
       port "wordpress" {
-        static = 8080
         to = 80
       }
     }
 
     task "wordpress-server" {
       driver = "docker"
+
+### Templates to configure tasks!
 
       template {
         destination = "local/wp-config.env"
@@ -32,7 +33,7 @@ EOH
       }
 
       config {
-        image = "wordpress"
+        image = "wordpress:6.0.2"
         ports = ["wordpress"]
       }
 

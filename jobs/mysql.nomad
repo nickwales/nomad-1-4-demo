@@ -29,8 +29,8 @@ job "mysql-server" {
       driver = "docker"
 
       config {
-        image = "mysql"
-        ports = ["db"]
+        image   = "mysql:8.0.31"
+        ports   = ["db"]
       }
 
       resources {
@@ -38,13 +38,13 @@ job "mysql-server" {
         memory = 512
       }
 
+## Registers us into Nomad's service discovery and health checks us.
       service {
         name     = "mysql-server"
         port     = "db"
         provider = "nomad"        
         tags     = ["mysql", "wordpress", "demo"]
-
-#### This is new!!!! ####         
+        
         check {
           type     = "tcp"
           interval = "20s"
@@ -52,6 +52,7 @@ job "mysql-server" {
         }
       }
 
+## Template to setup users/passwords and initial database. 
       template {
           data = <<EOF
 {{- with nomadVar "nomad/jobs/mysql-server" -}}
@@ -62,9 +63,9 @@ MYSQL_RANDOM_ROOT_PASSWORD = {{.MYSQL_RANDOM_ROOT_PASSWORD}}
 {{- end -}}
 EOF        
        
-          destination = "${NOMAD_TASK_DIR}/mysql.env"          
+          destination = "${NOMAD_SECRETS_DIR}/mysql.env"          
           env         = true
-      }       
+      } 
     }
   }
 }
