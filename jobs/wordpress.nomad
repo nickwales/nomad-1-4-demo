@@ -5,6 +5,12 @@ job "wordpress-server" {
   group "wordpress-server" {
     count = 1
 
+    scaling {
+      enabled = true
+      min     = 1
+      max     = 5
+    }
+
     network {
       port "wordpress" {
         to = 80
